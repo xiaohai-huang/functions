@@ -1,9 +1,12 @@
 {
-  "name": "edge-functions",
+  "name": "functions",
   "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
   "devDependencies": {},
   "dependencies": {
     "express": "^4.18.2",
