@@ -5,7 +5,7 @@ import NodeCache from "node-cache";
 const imageCache = new NodeCache({ stdTTL: 604800, useClones: false });
 
 export default async function handler(req, res) {
-  const { url, width, height, format = "origin", quality = 0.8 } = req.query;
+  const { url, width, height, format = "origin", quality = 1 } = req.query;
   let buffer = imageCache.get(url);
   let cacheControl;
   if (!buffer) {
