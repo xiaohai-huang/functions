@@ -23,6 +23,7 @@ const loadRoutesFromDirectory = (app, directory, routes) => {
         routes.add(route);
         const fileURL = pathToFileURL(filePath).href;
         import(fileURL).then((module) => {
+          console.log({ route, fileURL, module });
           app.use(route, module.default);
         });
       }
