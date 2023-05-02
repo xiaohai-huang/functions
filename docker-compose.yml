@@ -1,0 +1,17 @@
+version: "3"
+services:
+  functions-app:
+    image: "xiaohaihuang/functions:latest"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000
+
+    networks:
+      - reverse-proxy-network
+
+networks:
+  reverse-proxy-network:
+    external: true
+    name: nginx-network
