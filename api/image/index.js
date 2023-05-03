@@ -11,6 +11,7 @@ export default async function handler(req, res) {
     height,
     format = "origin",
     quality = 1,
+    fit
   } = req.query;
   const url = decodeURIComponent(rawUrl);
 
@@ -27,7 +28,9 @@ export default async function handler(req, res) {
   const metadata = await image.metadata();
   const outputFormat = format === "origin" ? metadata.format : format;
   const resizedImage = await image
-    .resize(width ? parseInt(width) : null, height ? parseInt(height) : null)
+    .resize(width ? parseInt(width) : null, height ? parseInt(height) : null,{
+      fit
+    })
     .toFormat(outputFormat)
     .jpeg({ quality: parseFloat(quality) * 100 })
     .png({ quality: parseFloat(quality) * 100 })
