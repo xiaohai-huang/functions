@@ -4,7 +4,11 @@ import morgan from "morgan";
 
 const app = express();
 app.use(express.json());
-app.use(morgan(":date :remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms"));
+app.use(
+  morgan(
+    ":date :method :url HTTP/:http-version :status :res[content-length] - :response-time ms"
+  )
+);
 
 const routes = loadFileBasedRoutes(app, "api");
 console.log(routes);
