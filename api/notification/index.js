@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       data.map(async ({ id, subscription }) => {
         try {
           await webpush.sendNotification(
-            JSON.parse(subscription),
+            subscription,
             JSON.stringify({
               type: "notification",
               data: {
