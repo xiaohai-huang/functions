@@ -5,6 +5,10 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - VAPID_PRIVATE_KEY=<your-key>
+      - VAPID_PUBLIC_KEY=<your-key>
+      - SUPABASE_URL=<your-key>
+      - SUPABASE_SERVICE_ROLE_KEY=<your-key>
     ports:
       - 3000
 
