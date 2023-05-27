@@ -14,23 +14,40 @@ export default async function handler(req, res) {
     // get all push subscriptions of the user
     const { data } = await supabase
       .from("push-subscriptions")
-      .select("subscription")
+      .select("id,subscription")
       .eq("user_id", user_id);
 
-    for (const { subscription } of data) {
-      console.log(subscription);
-      const res = await webpush.sendNotification(
-        JSON.parse(subscription),
-        JSON.stringify({
-          type: "notification",
-          data: {
-            title,
-            options,
-          },
-        })
-      );
-      console.log(res);
-    }
+    await Promise.all(
+      data.map(async ({ id, subscription }) => {
+        try {
+          await webpush.sendNotification(
+            JSON.parse(subscription),
+            JSON.stringify({
+              type: "notification",
+              data: {
+                title,
+                options,
+              },
+            })
+          );
+          return console.log(
+            "successfully sent the push notification.",
+            subscription.endpoint
+          );
+        } catch (error) {
+          if (
+            error.body.includes(
+              "push subscription has unsubscribed or expired."
+            )
+          ) {
+            // delete the subscription from db
+            await supabase.from("push-subscriptions").delete().eq("id", id);
+            console.log("delete the subscription from db.");
+          }
+          console.log("failed to send the push notification.", error);
+        }
+      })
+    );
 
     res.json({ message: "success" });
   }
